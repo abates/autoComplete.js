@@ -1,5 +1,6 @@
 import createList from "../components/List";
 import createItem from "../components/Item";
+import getDocument from "../utils/document";
 
 /**
  * Close all open lists
@@ -10,7 +11,7 @@ import createItem from "../components/Item";
  */
 const closeAllLists = (config, element) => {
   // Get all autoComplete lists
-  const list = document.getElementsByClassName(config.resultsList.className);
+  const list = getDocument(config).querySelectorAll(`.${config.resultsList.className}`);
   // Iterate over all autoComplete open lists in the document
   for (let index = 0; index < list.length; index++) {
     // Close all lists

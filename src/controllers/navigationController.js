@@ -1,5 +1,6 @@
 import { closeAllLists } from "./listController";
 import eventEmitter from "../utils/eventEmitter";
+import getDocument from "../utils/document";
 
 /**
  * List navigation function initializer
@@ -86,11 +87,11 @@ const navigate = (config, dataFeedback) => {
    *
    */
   const navigation = (event) => {
-    let list = document.getElementById(config.resultsList.idName);
+    let list = getDocument(config).getElementById(config.resultsList.idName);
 
     if (!list) return config.inputField.removeEventListener("keydown", navigate);
 
-    list = list.getElementsByTagName(config.resultItem.element);
+    list = list.querySelectorAll(config.resultItem.element);
 
     if (event.keyCode === 27) {
       // If the ESC key is pressed

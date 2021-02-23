@@ -150,7 +150,6 @@
   }
 
   var inputComponent = (function (config) {
-    config.inputField.setAttribute("type", "text");
     config.inputField.setAttribute("role", "combobox");
     config.inputField.setAttribute("aria-haspopup", true);
     config.inputField.setAttribute("aria-expanded", false);
@@ -181,8 +180,13 @@
     return result;
   });
 
+  var getDocument = (function (config) {
+    if (typeof config.selector === "string") return document;
+    return config.selector().getRootNode();
+  });
+
   var closeAllLists = function closeAllLists(config, element) {
-    var list = document.getElementsByClassName(config.resultsList.className);
+    var list = getDocument(config).querySelectorAll(".".concat(config.resultsList.className));
     for (var index = 0; index < list.length; index++) {
       if (element !== list[index] && element !== config.inputField) list[index].parentNode.removeChild(list[index]);
     }
@@ -256,9 +260,9 @@
       list[currentFocus].classList.add("autoComplete_selected");
     };
     var navigation = function navigation(event) {
-      var list = document.getElementById(config.resultsList.idName);
+      var list = getDocument(config).getElementById(config.resultsList.idName);
       if (!list) return config.inputField.removeEventListener("keydown", navigate);
-      list = list.getElementsByTagName(config.resultItem.element);
+      list = list.querySelectorAll(config.resultItem.element);
       if (event.keyCode === 27) {
         config.inputField.value = "";
         closeAllLists(config);
